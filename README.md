@@ -1,73 +1,84 @@
-# Welcome to your Lovable project
+YatraFlow
 
-## Project info
+YatraFlow is a Road Safety Management System built entirely with React + Vite. It provides real-time accident and hazard reporting, live analytics, zone-wise tracking, and advanced filtering—all using local storage without any backend. The platform empowers traffic management teams, emergency responders, and city authorities to make roads safer.
 
-**URL**: https://lovable.dev/projects/fcd8a83f-0f31-403d-90ef-caf062d0a96b
+🛠 Tech Stack
 
-## How can I edit this code?
+Frontend: React, TypeScript, Vite, Tailwind CSS
 
-There are several ways of editing your application.
+Charts & Visualization: Recharts
 
-**Use Lovable**
+Icons: Lucide-React
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/fcd8a83f-0f31-403d-90ef-caf062d0a96b) and start prompting.
+Storage: Browser LocalStorage
 
-Changes made via Lovable will be committed automatically to this repo.
+Hosting: Netlify / any static host
 
-**Use your preferred IDE**
+📂 Project Structure
+YATRAFLOW2/
+├─ public/
+│  ├─ favicon.ico
+│  └─ index.html
+├─ src/
+│  ├─ assets/               
+│  │  └─ alarm.mp3
+│  ├─ components/           
+│  │  ├─ ThemeToggle.tsx
+│  │  ├─ ui/
+│  │  │  ├─ button.tsx
+│  │  │  ├─ card.tsx
+│  │  │  ├─ table.tsx
+│  │  │  ├─ input.tsx
+│  │  │  ├─ label.tsx
+│  │  │  ├─ dialog.tsx
+│  │  │  └─ radio-group.tsx
+│  ├─ contexts/
+│  │  └─ AuthContext.tsx
+│  ├─ lib/
+│  │  ├─ storage.ts
+│  │  ├─ dynamicgenerator.ts
+│  │  └─ types.ts
+│  ├─ pages/
+│  │  ├─ Landing.tsx
+│  │  └─ Dashboard.tsx
+│  ├─ charts/
+│  │  └─ ChartSection.tsx
+│  ├─ tables/
+│  │  └─ ReportsTable.tsx
+│  ├─ App.tsx
+│  └─ main.tsx
+├─ index.html
+├─ package.json
+├─ tsconfig.json
+├─ vite.config.ts
+├─ tailwind.config.js
+├─ postcss.config.js
+└─ README.md
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+🔧 Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Clone the repo:
 
-Follow these steps:
+git clone https://github.com/AYUS2005/YATRAFLOW2.git
+cd YATRAFLOW2
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Install dependencies:
 
-# Step 3: Install the necessary dependencies.
-npm i
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+
+Run development server:
+
 npm run dev
-```
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Build for production:
 
-**Use GitHub Codespaces**
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
+Preview production build locally (optional):
 
-This project is built with:
+npm run preview
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/fcd8a83f-0f31-403d-90ef-caf062d0a96b) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
