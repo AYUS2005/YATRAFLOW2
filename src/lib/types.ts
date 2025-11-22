@@ -7,6 +7,8 @@ export interface Report {
   id: string;
   zone: string;
   locationName: string;
+  latitude: number;
+  longitude: number;
   type: ReportType;
   severity: SeverityLevel;
   description: string;

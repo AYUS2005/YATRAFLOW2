@@ -21,6 +21,8 @@ export const AddReportDialog = ({ open, onOpenChange, onReportAdded }: AddReport
   const [formData, setFormData] = useState({
     zone: '',
     locationName: '',
+    latitude: '',
+    longitude: '',
     type: 'accident' as ReportType,
     severity: 'medium' as SeverityLevel,
     description: '',
@@ -31,14 +33,20 @@ export const AddReportDialog = ({ open, onOpenChange, onReportAdded }: AddReport
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!formData.zone || !formData.locationName || !formData.description) {
+    if (!formData.zone || !formData.locationName || !formData.description || !formData.latitude || !formData.longitude) {
       toast.error('Please fill in all required fields');
       return;
     }
 
     const newReport: Report = {
       id: Date.now().toString(),
-      ...formData,
+      zone: formData.zone,
+      locationName: formData.locationName,
+      latitude: parseFloat(formData.latitude),
+      longitude: parseFloat(formData.longitude),
+      type: formData.type,
+      severity: formData.severity,
+      description: formData.description,
       reportedAt: new Date().toISOString(),
       status: 'active',
       reportedBy: user?.name || 'User',
@@ -57,6 +65,8 @@ export const AddReportDialog = ({ open, onOpenChange, onReportAdded }: AddReport
     setFormData({
       zone: '',
       locationName: '',
+      latitude: '',
+      longitude: '',
       type: 'accident',
       severity: 'medium',
       description: '',
@@ -100,6 +110,33 @@ export const AddReportDialog = ({ open, onOpenChange, onReportAdded }: AddReport
               onChange={(e) => setFormData({ ...formData, locationName: e.target.value })}
               required
             />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="latitude">Latitude *</Label>
+              <Input
+                id="latitude"
+                type="number"
+                step="any"
+                placeholder="e.g., 12.9716"
+                value={formData.latitude}
+                onChange={(e) => setFormData({ ...formData, latitude: e.target.value })}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="longitude">Longitude *</Label>
+              <Input
+                id="longitude"
+                type="number"
+                step="any"
+                placeholder="e.g., 77.5946"
+                value={formData.longitude}
+                onChange={(e) => setFormData({ ...formData, longitude: e.target.value })}
+                required
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
