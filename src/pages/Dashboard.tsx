@@ -8,7 +8,6 @@ import { StatsCards } from '@/components/dashboard/StatsCards';
 import { ChartsSection } from '@/components/dashboard/ChartsSection';
 import { ReportsTable } from '@/components/dashboard/ReportsTable';
 import { AddReportDialog } from '@/components/dashboard/AddReportDialog';
-import { MapView } from '@/components/dashboard/MapView';
 import { Report } from '@/lib/types';
 import { getReports, initializeStorage } from '@/lib/storage';
 import { toast } from 'sonner';
@@ -134,7 +133,6 @@ export default function Dashboard() {
       <main className="container mx-auto px-4 py-6 space-y-6">
         <StatsCards reports={reports} />
         <ChartsSection reports={reports} />
-        <MapView reports={filteredReports} />
         <ReportsTable reports={filteredReports} onReportsChange={loadReports} />
       </main>
 
