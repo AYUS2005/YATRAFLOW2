@@ -11,6 +11,7 @@ import { AddReportDialog } from '@/components/dashboard/AddReportDialog';
 import { Report } from '@/lib/types';
 import { getReports, initializeStorage } from '@/lib/storage';
 import { toast } from 'sonner';
+import { startAutoGeneration, stopAutoGeneration } from '@/lib/dynamicgenerator'; // lowercase import
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
@@ -19,11 +20,24 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showAddDialog, setShowAddDialog] = useState(false);
 
+  // Load reports + start generator on mount
   useEffect(() => {
-    initializeStorage();
+    initializeStorage(); // Load sample data
     loadReports();
+
+    const interval = startAutoGeneration(setReports); // start generator with callback
+
+    // Listen for dynamic updates (optional, if using events)
+    const handleUpdate = () => loadReports();
+    window.addEventListener('reportsUpdated', handleUpdate);
+
+    return () => {
+      stopAutoGeneration(interval); // cleanup interval
+      window.removeEventListener('reportsUpdated', handleUpdate);
+    };
   }, []);
 
+  // Filter reports whenever searchQuery or reports change
   useEffect(() => {
     filterReports();
   }, [reports, searchQuery]);
@@ -39,6 +53,7 @@ export default function Dashboard() {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(report =>
+        report.id.toLowerCase().includes(query) ||
         report.locationName.toLowerCase().includes(query) ||
         report.zone.toLowerCase().includes(query) ||
         report.description.toLowerCase().includes(query) ||
@@ -73,7 +88,7 @@ export default function Dashboard() {
     a.href = url;
     a.download = `yatraflow-reports-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
-    
+
     toast.success('Reports exported successfully');
   };
 
@@ -83,10 +98,8 @@ export default function Dashboard() {
       <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold text-foreground">YatraFlow Dashboard</h1>
-            </div>
-            
+            <h1 className="text-2xl font-bold text-foreground">YatraFlow Dashboard</h1>
+
             <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 bg-muted rounded-lg px-3 py-2">
                 <span className="text-sm text-muted-foreground">Welcome,</span>
@@ -133,7 +146,7 @@ export default function Dashboard() {
       <main className="container mx-auto px-4 py-6 space-y-6">
         <StatsCards reports={reports} />
         <ChartsSection reports={reports} />
-        <ReportsTable reports={filteredReports} onReportsChange={loadReports} />
+        <ReportsTable reports={filteredReports} onReportsChange={setReports} />
       </main>
 
       {/* Add Report Dialog */}

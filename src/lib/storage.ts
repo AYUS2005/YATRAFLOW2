@@ -1,70 +1,52 @@
-import { Report, User, AuthState } from './types';
-import { sampleReports } from './sampleData';
+import { Report } from './types';
+import { generateFakeReports } from './fakedata';
 
-const STORAGE_KEYS = {
-  REPORTS: 'yatraflow_reports',
-  AUTH: 'yatraflow_auth',
-  THEME: 'yatraflow_theme',
-};
+// ------------------- Reports -------------------
+let reports: Report[] = generateFakeReports(50); // initial fake reports
 
-// Initialize storage with sample data if empty
-export const initializeStorage = () => {
-  const existingReports = localStorage.getItem(STORAGE_KEYS.REPORTS);
-  if (!existingReports) {
-    localStorage.setItem(STORAGE_KEYS.REPORTS, JSON.stringify(sampleReports));
-  }
-};
+// Get all reports
+export const getReports = (): Report[] => reports;
 
-// Reports management
-export const getReports = (): Report[] => {
-  const data = localStorage.getItem(STORAGE_KEYS.REPORTS);
-  return data ? JSON.parse(data) : [];
-};
-
-export const saveReports = (reports: Report[]): void => {
-  localStorage.setItem(STORAGE_KEYS.REPORTS, JSON.stringify(reports));
-};
-
+// Add a new report
 export const addReport = (report: Report): void => {
-  const reports = getReports();
-  reports.unshift(report);
-  saveReports(reports);
+  reports.push(report);
+  window.dispatchEvent(new Event('reportsUpdated'));
 };
 
-export const updateReport = (id: string, updates: Partial<Report>): void => {
-  const reports = getReports();
-  const index = reports.findIndex(r => r.id === id);
-  if (index !== -1) {
-    reports[index] = { ...reports[index], ...updates };
-    saveReports(reports);
+// Update storage completely
+export const updateReportsStorage = (newReports: Report[]): void => {
+  reports = newReports;
+  window.dispatchEvent(new Event('reportsUpdated'));
+};
+
+// Update a single report
+export const updateReport = (updatedReport: Report): void => {
+  reports = reports.map(r => (r.id === updatedReport.id ? updatedReport : r));
+  window.dispatchEvent(new Event('reportsUpdated'));
+};
+
+// Delete a report by id
+export const deleteReport = (id: string): void => {
+  reports = reports.filter(r => r.id !== id);
+  window.dispatchEvent(new Event('reportsUpdated'));
+};
+
+// Initialize storage (optional, used in Dashboard)
+export const initializeStorage = (): void => {
+  if (!reports.length) {
+    reports = generateFakeReports(50);
   }
 };
 
-export const deleteReport = (id: string): void => {
-  const reports = getReports();
-  const filtered = reports.filter(r => r.id !== id);
-  saveReports(filtered);
-};
+// ------------------- Auth -------------------
+let authState: { user?: any } = {};
 
-// Auth management
-export const getAuthState = (): AuthState => {
-  const data = localStorage.getItem(STORAGE_KEYS.AUTH);
-  return data ? JSON.parse(data) : { user: null, isAuthenticated: false };
-};
+export const getAuthState = () => authState;
+export const setAuthState = (state: { user?: any }) => { authState = state; };
+export const clearAuth = () => { authState = {}; };
 
-export const setAuthState = (authState: AuthState): void => {
-  localStorage.setItem(STORAGE_KEYS.AUTH, JSON.stringify(authState));
-};
+// ------------------- Theme -------------------
+let theme: 'light' | 'dark' = 'light';
 
-export const clearAuth = (): void => {
-  localStorage.removeItem(STORAGE_KEYS.AUTH);
-};
-
-// Theme management
-export const getTheme = (): string => {
-  return localStorage.getItem(STORAGE_KEYS.THEME) || 'light';
-};
-
-export const setTheme = (theme: string): void => {
-  localStorage.setItem(STORAGE_KEYS.THEME, theme);
-};
+export const getTheme = () => theme;
+export const setTheme = (newTheme: 'light' | 'dark') => { theme = newTheme; };

@@ -146,64 +146,122 @@ export default function Landing() {
       </section>
 
       {/* About Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">About YatraFlow</h2>
-            <div className="space-y-4 text-lg text-muted-foreground">
-              <p>
-                YatraFlow is a comprehensive accident and road hazards management system designed to make roads safer 
-                through real-time monitoring and data-driven insights.
-              </p>
-              <p>
-                Our platform empowers traffic management teams, emergency responders, and city officials with the tools 
-                they need to quickly identify, respond to, and resolve road safety issues.
-              </p>
-              <p>
-                With features like live analytics, severity-based prioritization, and zone-wise tracking, YatraFlow 
-                transforms raw incident data into actionable intelligence, helping reduce response times and improve 
-                overall road safety outcomes.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+<section className="py-20 bg-background/50">
+  <div className="container mx-auto px-4">
+    <div className="text-center mb-12">
+      <h2 className="text-3xl md:text-4xl font-bold mb-4">About YatraFlow</h2>
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        Learn how YatraFlow revolutionizes road safety management with real-time monitoring, intelligent insights, and seamless reporting.
+      </p>
+    </div>
+
+    <div className="grid md:grid-cols-3 gap-8">
+      <div className="bg-card/70 border rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
+        <AlertTriangle className="h-10 w-10 text-warning mb-4" />
+        <h3 className="text-xl font-semibold mb-2">Real-Time Alerts</h3>
+        <p className="text-muted-foreground">
+          Instantly get notified about accidents and hazards in your city. Real-time updates help authorities respond faster.
+        </p>
+      </div>
+
+      <div className="bg-card/70 border rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
+        <BarChart3 className="h-10 w-10 text-primary mb-4" />
+        <h3 className="text-xl font-semibold mb-2">Data-Driven Insights</h3>
+        <p className="text-muted-foreground">
+          Turn raw incident data into actionable intelligence. Analyze trends, severity patterns, and zone-wise statistics efficiently.
+        </p>
+      </div>
+
+      <div className="bg-card/70 border rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow">
+        <Users className="h-10 w-10 text-accent mb-4" />
+        <h3 className="text-xl font-semibold mb-2">Empowered Teams</h3>
+        <p className="text-muted-foreground">
+          Equip traffic management teams, emergency responders, and city officials with tools to reduce response times and improve road safety.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* Footer */}
-      <footer className="border-t bg-card/50 py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Shield className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold">YatraFlow</span>
-              </div>
-              <p className="text-muted-foreground">
-                Making roads safer through intelligent monitoring and real-time analytics.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>Email: support@yatraflow.com</li>
-                <li>Phone: +91 123 456 7890</li>
-                <li>Emergency: 112</li>
-              </ul>
-            </div>
-          </div>
-          <div className="mt-8 pt-8 border-t text-center text-muted-foreground">
-            <p>&copy; 2025 YatraFlow. All rights reserved.</p>
-          </div>
+<footer className="border-t bg-card/50 py-12">
+  <div className="container mx-auto px-4">
+    <div className="grid md:grid-cols-3 gap-8">
+      {/* Branding + Socials */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <Shield className="h-6 w-6 text-primary" />
+          <span className="text-xl font-bold">YatraFlow</span>
         </div>
-      </footer>
+        <p className="text-muted-foreground mb-4">
+          Making roads safer through intelligent monitoring and real-time analytics.
+        </p>
+        <div className="flex gap-4">
+          {/* Twitter */}
+          <a
+            href="https://twitter.com/AyushSingh98398"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-blue-500 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53A4.48 4.48 0 0022.4.36a9 9 0 01-2.88 1.1A4.52 4.52 0 0016.5 0c-2.5 0-4.5 2-4.5 4.5 0 .35.04.7.1 1.03A12.94 12.94 0 013 1.36a4.51 4.51 0 001.4 6.03A4.48 4.48 0 012.8 6v.05c0 2.2 1.57 4.03 3.64 4.44a4.52 4.52 0 01-2.04.08c.57 1.78 2.23 3.08 4.19 3.12A9.06 9.06 0 010 19.54 12.84 12.84 0 007 21c8.4 0 13-7 13-13 0-.2 0-.42-.01-.63A9.18 9.18 0 0023 3z"/>
+            </svg>
+          </a>
+
+          {/* LinkedIn */}
+          <a
+            href="https://www.linkedin.com/in/ayush-singh-7b4b0a248/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-blue-700 transition-colors"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M4.98 3.5C3.34 3.5 2 4.84 2 6.48c0 1.63 1.34 2.97 2.98 2.97 1.63 0 2.98-1.34 2.98-2.97C7.96 4.84 6.61 3.5 4.98 3.5zM2.4 21h5.16V9H2.4v12zm7.4-12v12h5.16v-6.36c0-3.46 4.48-3.74 4.48 0V21H24v-7.2c0-6.78-7.36-6.54-8.88-3.18V9h-5.16z"/>
+            </svg>
+          </a>
+
+          {/* GitHub */}
+          <a
+            href="https://github.com/AYUS2005"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-gray-800 dark:hover:text-white transition-colors"
+          >
+            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.16c-3.34.73-4.03-1.42-4.03-1.42-.55-1.4-1.34-1.77-1.34-1.77-1.1-.75.08-.73.08-.73 1.22.09 1.86 1.26 1.86 1.26 1.08 1.85 2.83 1.31 3.52 1 .11-.78.42-1.31.76-1.61-2.67-.31-5.47-1.33-5.47-5.92 0-1.31.47-2.38 1.24-3.22-.12-.31-.54-1.56.12-3.26 0 0 1-.32 3.3 1.23a11.53 11.53 0 013-.41c1.02.01 2.05.14 3 .41 2.3-1.55 3.3-1.23 3.3-1.23.66 1.7.24 2.95.12 3.26.77.84 1.24 1.91 1.24 3.22 0 4.6-2.8 5.61-5.47 5.91.43.37.81 1.1.81 2.22v3.3c0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      {/* Quick Links */}
+      <div>
+        <h3 className="font-semibold mb-4">Quick Links</h3>
+        <ul className="space-y-2 text-muted-foreground">
+          <li><a href="#" className="hover:text-primary transition-colors">About</a></li>
+          <li><a href="#" className="hover:text-primary transition-colors">Features</a></li>
+          <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      {/* Contact */}
+      <div>
+        <h3 className="font-semibold mb-4">Contact</h3>
+        <ul className="space-y-2 text-muted-foreground">
+          <li>Email: ayushhomz.com</li>
+          <li>Phone: +91 123 456 7890</li>
+          <li>Emergency: 112</li>
+        </ul>
+      </div>
+    </div>
+
+    <div className="mt-8 pt-8 border-t text-center text-muted-foreground">
+      <p>&copy; 2025 YatraFlow. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
 
       {/* Auth Dialog */}
       <Dialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
