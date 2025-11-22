@@ -10,9 +10,11 @@ export const StatsCards = ({ reports }: StatsCardsProps) => {
   const totalAccidents = reports.filter(r => r.type === 'accident').length;
   const totalHazards = reports.filter(r => r.type === 'hazard').length;
   const activeReports = reports.filter(r => r.status === 'active').length;
+  const pendingReports = reports.filter(r => r.status === 'pending').length;
   const resolvedReports = reports.filter(r => r.status === 'resolved').length;
-  const highPriorityReports = reports.filter(r => 
-    r.severity === 'high' || r.severity === 'critical'
+
+  const highPriorityReports = reports.filter(
+    r => r.severity === 'high' || r.severity === 'critical'
   ).length;
 
   const stats = [
@@ -38,6 +40,13 @@ export const StatsCards = ({ reports }: StatsCardsProps) => {
       bgColor: 'bg-primary/10',
     },
     {
+      title: 'Pending Reports',
+      value: pendingReports,
+      icon: Clock,
+      color: 'text-yellow-500',
+      bgColor: 'bg-yellow-500/10',
+    },
+    {
       title: 'Resolved Reports',
       value: resolvedReports,
       icon: CheckCircle,
@@ -53,8 +62,9 @@ export const StatsCards = ({ reports }: StatsCardsProps) => {
     },
   ];
 
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
       {stats.map((stat) => {
         const Icon = stat.icon;
         return (
