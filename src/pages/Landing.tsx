@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import { Shield, AlertTriangle, BarChart3, Users, CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -20,9 +22,11 @@ export default function Landing() {
   const { login, signup, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
+useEffect(() => {
   if (isAuthenticated) {
     navigate('/dashboard');
   }
+}, [isAuthenticated, navigate]);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,8 +43,8 @@ export default function Landing() {
 
     try {
       const success = authMode === 'login' 
-        ? await login(email, password, role)
-        : await signup(email, password, name, role);
+        ? await login(email, password,)
+        : await signup(email, password, name,);
 
       if (success) {
         toast.success(`${authMode === 'login' ? 'Logged in' : 'Account created'} successfully!`);
@@ -310,19 +314,7 @@ export default function Landing() {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <Label>Account Type</Label>
-              <RadioGroup value={role} onValueChange={(v) => setRole(v as 'admin' | 'user')}>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="user" id="user" />
-                  <Label htmlFor="user" className="font-normal">User (View & Report)</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="admin" id="admin" />
-                  <Label htmlFor="admin" className="font-normal">Admin (Full Access)</Label>
-                </div>
-              </RadioGroup>
-            </div>
+         
             <Button type="submit" className="w-full">
               {authMode === 'login' ? 'Login' : 'Sign Up'}
             </Button>
