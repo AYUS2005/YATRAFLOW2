@@ -1,78 +1,137 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { User, AuthState } from '@/lib/types';
-import { getAuthState, setAuthState, clearAuth } from '@/lib/storage';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+
+import {
+  getAuthState,
+  saveAuthState,
+  clearAuthState,
+  getUsers,
+  saveUsers,
+} from "@/lib/storage";
+
+import { AppUser } from "@/lib/types";
+
+interface AuthState {
+  user: AppUser | null;
+  isAuthenticated: boolean;
+}
 
 interface AuthContextType {
-  user: User | null;
+  user: AppUser | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string, role: 'admin' | 'user') => Promise<boolean>;
+  login: (email: string, password: string) => Promise<boolean>;
+  signup: (email: string, password: string, name: string) => Promise<boolean>;
   logout: () => void;
-  signup: (email: string, password: string, name: string, role: 'admin' | 'user') => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [authState, setAuthStateLocal] = useState<AuthState>(() => getAuthState());
+  const [authState, setAuth] = useState<AuthState>({
+    user: null,
+    isAuthenticated: false,
+  });
 
-  useEffect(() => {
-    const state = getAuthState();
-    setAuthStateLocal(state);
-  }, []);
+  // Load saved login on refresh
+// Do NOT auto-login on refresh
+useEffect(() => {
+  // Landing page should always show first
+  setAuth({
+    user: null,
+    isAuthenticated: false,
+  });
+}, []);
 
-  const login = async (email: string, password: string, role: 'admin' | 'user'): Promise<boolean> => {
-    // Simulate authentication
-    const user: User = {
-      id: Math.random().toString(36).substr(2, 9),
-      email,
-      role,
-      name: email.split('@')[0],
-    };
 
-    const newState: AuthState = {
-      user,
-      isAuthenticated: true,
-    };
+  // ------------------------- LOGIN -------------------------
+  const login = async (email: string, password: string): Promise<boolean> => {
+  const users = getUsers();
+  const found = users.find(
+    (u) =>
+      u.email.toLowerCase() === email.toLowerCase() &&
+      u.password === password
+  );
 
-    setAuthState(newState);
-    setAuthStateLocal(newState);
-    return true;
+  if (!found) return false;
+
+  // Local Auth Object
+  const newAuth: AuthState = {
+    user: found,
+    isAuthenticated: true,
   };
 
-  const signup = async (email: string, password: string, name: string, role: 'admin' | 'user'): Promise<boolean> => {
-    const user: User = {
-      id: Math.random().toString(36).substr(2, 9),
-      email,
-      role,
+  // ✔ Storage save
+  saveAuthState({
+    user: found,
+    isAuthenticated: true,
+  });
+
+  // ✔ UI update
+  setAuth(newAuth);
+
+  return true;
+};
+
+
+  // ------------------------- SIGNUP -------------------------
+  const signup = async (
+    email: string,
+    password: string,
+    name: string
+  ): Promise<boolean> => {
+    const users = getUsers();
+
+    const exists = users.find(
+      (u) => u.email.toLowerCase() === email.toLowerCase()
+    );
+
+    if (exists) return false;
+
+    const newUser: AppUser = {
+      id: Math.random().toString(36).substring(2, 10),
       name,
+      email,
+      password,
+      role: "user",
+      createdAt: new Date().toISOString(),
     };
 
-    const newState: AuthState = {
-      user,
-      isAuthenticated: true,
-    };
+    const updated = [...users, newUser];
 
-    setAuthState(newState);
-    setAuthStateLocal(newState);
+    saveUsers(updated);
+
     return true;
   };
 
+  // ------------------------- LOGOUT -------------------------
   const logout = () => {
-    clearAuth();
-    setAuthStateLocal({ user: null, isAuthenticated: false });
+    clearAuthState();
+    setAuth({ user: null, isAuthenticated: false });
   };
 
   return (
-    <AuthContext.Provider value={{ ...authState, login, logout, signup }}>
+    <AuthContext.Provider
+      value={{
+        user: authState.user,
+        isAuthenticated: authState.isAuthenticated,
+        login,
+        signup,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
 
+// Hook
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
 };
