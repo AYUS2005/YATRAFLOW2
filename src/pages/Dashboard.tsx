@@ -59,7 +59,8 @@ export default function Dashboard() {
         report.description.toLowerCase().includes(query) ||
         report.type.toLowerCase().includes(query) ||
         report.severity.toLowerCase().includes(query) ||
-        report.status.toLowerCase().includes(query)
+        report.status.toLowerCase().includes(query) 
+
       );
     }
 
